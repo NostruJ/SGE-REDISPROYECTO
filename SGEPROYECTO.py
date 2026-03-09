@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Configuración de Redis
 db = redis.Redis(host='localhost', port=6379, decode_responses=True)
-
+db.flushall() #(BORRAR EN CASO DE QUE NO QUIERAN BORRAR LA BASE DE DATOS)
 # Plantilla HTML con Apartado Desplegable (Details/Summary)
 HTML_LAYOUT = '''
 <!DOCTYPE html>
