@@ -4,10 +4,10 @@ import uuid
 
 app = Flask(__name__)
 
-# Configuración de Redis
+
 db = redis.Redis(host='localhost', port=6379, decode_responses=True)
 db.flushall() #(BORRAR EN CASO DE QUE NO QUIERAN BORRAR LA BASE DE DATOS)
-# Plantilla HTML con Apartado Desplegable (Details/Summary)
+
 HTML_LAYOUT = '''
 <!DOCTYPE html>
 <html lang="es">
@@ -82,7 +82,7 @@ HTML_LAYOUT = '''
 
 @app.route('/')
 def index():
-    # READ: Consulta masiva de claves con patrón 'estudiante:*' 
+    
     keys = db.keys('estudiante:*')
     estudiantes = []
     for key in keys:
@@ -93,7 +93,7 @@ def index():
 
 @app.route('/guardar', methods=['POST'])
 def guardar_estudiante():
-    # CREATE / UPDATE: Lógica combinada 
+    
     est_id = request.form.get('id')
     if not est_id:
         est_id = str(uuid.uuid4())[:6].upper()
@@ -107,7 +107,7 @@ def guardar_estudiante():
 
 @app.route('/editar/<id>')
 def editar_vista(id):
-    # READ específico para edición 
+    
     data = db.hgetall(f"estudiante:{id}")
     data['id'] = id
     
@@ -122,7 +122,7 @@ def editar_vista(id):
 
 @app.route('/eliminar/<id>')
 def eliminar(id):
-    # DELETE 
+    
     db.delete(f"estudiante:{id}")
     return redirect(url_for('index'))
 
